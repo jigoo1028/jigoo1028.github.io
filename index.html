@@ -1,12 +1,184 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DIAstory App Support</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            max-width: 800px;
+            margin: 20px auto;
+            line-height: 1.6;
+            color: #333;
+        }
+        h1 {
+            color: #1a73e8; /* DIAstory 느낌의 청량한 색상 */
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        h2 {
+            margin-top: 30px;
+            color: #555;
+        }
+        .faq-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-left: 3px solid #ccc;
+        }
+        .faq-item strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .contact-email {
+            font-weight: bold;
+            color: #d93025; /* 이메일 강조 */
+        }
+        .language-switcher {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body>
-    <h1>DIAstory App Support Page</h1>
-    <p>Thank you for using the DIAstory app.</p>
-    <p>For inquiries, please use the contact feature within the app or contact us by email.</p>
+
+    <div class="language-switcher">
+        <label for="lang-select">Language | 언어:</label>
+        <select id="lang-select" onchange="switchLanguage(this.value)">
+            <option value="ko" selected>한국어 (Korean)</option>
+            <option value="en">English</option>
+            <option value="ja">日本語 (Japanese)</option>
+            <option value="zh">繁體中文 (Traditional Chinese)</option>
+            <option value="es">Español (Spanish)</option>
+        </select>
+    </div>
+
+    <div id="content"></div>
+
+    <script>
+        // 지원 이메일
+        const SUPPORT_EMAIL = "diastorybaseballjunu@gmail.com";
+        
+        // 다국어 콘텐츠 데이터
+        const contentData = {
+            ko: {
+                title: "DIAstory 고객 지원 및 문의",
+                greeting: "안녕하세요. 저희 DIAstory를 이용해 주셔서 감사합니다. 앱 이용 중 불편한 점이나 궁금한 사항이 있다면 언제든지 문의해 주세요.",
+                section1: "1. 1:1 문의",
+                contact_desc: "가장 빠른 답변을 원하시면 아래 이메일 주소로 문의 내용을 보내주세요.",
+                section2: "2. 자주 묻는 질문 (FAQ)",
+                q1: "Q: 로그인이 되지 않거나 앱에 버그가 있는 것 같습니다.",
+                a1: "A: Apple 심사팀에서 보고한 iPad 로그인 문제 등을 포함하여 주요 버그는 최신 버전(1.0.2)에서 수정되었습니다. 앱을 최신 버전으로 업데이트하신 후 다시 시도해 주세요. 문제가 계속되면 디바이스 정보와 함께 위 이메일로 연락 주십시오.",
+                q2: "Q: 앱에서 '크루 및 친구'는 어떤 기능을 하나요?",
+                a2: "A: '크루 및 친구' 기능은 함께 서로의 경기 기록을 확인하며 함께 성장하는 것을 돕는 소셜 기능입니다.",
+                q3: "Q: 야구 기록뿐만 아니라 개인의 성장 기록도 남길 수 있나요?",
+                a3: "A: 네. 앱 내 '프로필' 탭의 '성장 기록' 메뉴를 통해 키, 체중 등 개인의 피지컬 변화를 꾸준히 기록하고 관리할 수 있습니다."
+            },
+            en: {
+                title: "DIAstory Customer Support & Inquiry",
+                greeting: "Hello. Thank you for using DIAstory. If you have any questions or encounter any issues while using the app, please feel free to contact us.",
+                section1: "1. One-on-One Inquiry",
+                contact_desc: "For the fastest response, please send your inquiry to the email address below.",
+                section2: "2. Frequently Asked Questions (FAQ)",
+                q1: "Q: I cannot log in, or the app seems to have a bug.",
+                a1: "A: Major bugs, including the iPad login issue reported by the Apple review team, have been fixed in the latest version (1.0.2). Please update the app and try again. If the problem persists, please contact us at the email above with your device details.",
+                q2: "Q: What is the purpose of the 'Crew and Friends' feature in the app?",
+                a2: "A: The 'Crew and Friends' feature is a social function that helps you grow together by checking each other's game records.",
+                q3: "Q: Can I record personal growth data in addition to baseball stats?",
+                a3: "A: Yes. You can consistently record and manage changes in your physical condition, such as height and weight, via the 'Growth Record' menu within the 'Profile' tab of the app."
+            },
+            ja: {
+                title: "DIAstory カスタマーサポートとお問い合わせ",
+                greeting: "DIAstoryをご利用いただき、誠にありがとうございます。アプリのご利用中にご不明な点や問題がございましたら、お気軽にお問い合わせください。",
+                section1: "1. 1対1のお問い合わせ",
+                contact_desc: "迅速な回答をご希望の場合は、下記のEメールアドレスまでお問い合わせ内容をお送りください。",
+                section2: "2. よくあるご質問（FAQ）",
+                q1: "Q: ログインができない、またはアプリにバグがあるようです。",
+                a1: "A: Apple審査チームから報告されたiPadのログイン問題など、主要なバグは最新バージョン（1.0.2）で修正されました。アプリを最新バージョンにアップデートしてから再度お試しください。問題が続く場合は、デバイス情報と共にお問い合わせEメールにご連絡ください。",
+                q2: "Q: アプリの「クルーと友達」機能は何のためにありますか？",
+                a2: "A: 「クルーと友達」機能は、お互いの試合記録を確認し合い、共に成長するのを助けるソーシャル機能です。",
+                q3: "Q: 野球の記録だけでなく、個人の成長記録も残せますか？",
+                a3: "A: はい。「プロフィール」タブ内の「成長記録」メニューから、身長や体重など個人の身体的な変化を継続的に記録・管理できます。"
+            },
+            zh: {
+                title: "DIAstory 客戶支援與諮詢",
+                greeting: "您好。感謝您使用 DIAstory。若您在使用應用程式時遇到任何不便或疑問，請隨時與我們聯繫。",
+                section1: "1. 一對一諮詢",
+                contact_desc: "如需最快的回覆，請將您的諮詢內容發送至以下電子郵件地址。",
+                section2: "2. 常見問題 (FAQ)",
+                q1: "Q: 我無法登入，或應用程式似乎有錯誤（Bug）。",
+                a1: "A: 包含 Apple 審查團隊報告的 iPad 登入問題在內，主要錯誤已在最新版本 (1.0.2) 中修復。請更新應用程式後重試。如果問題仍然存在，請附上您的設備資訊，透過上述電子郵件與我們聯繫。",
+                q2: "Q: 應用程式中的「隊友與朋友」功能有什麼作用？",
+                a2: "A: 「隊友與朋友」功能是一個社交功能，可讓您查看彼此的比賽記錄並共同成長。",
+                q3: "Q: 除了棒球記錄外，還可以記錄個人的成長記錄嗎？",
+                a3: "A: 是的。您可以透過應用程式「個人資料」選項中的「成長記錄」菜單，持續記錄和管理個人身體變化，例如身高和體重。"
+            },
+            es: {
+                title: "Soporte y Consultas al Cliente de DIAstory",
+                greeting: "Hola. Gracias por utilizar DIAstory. Si tiene alguna pregunta o encuentra algún inconveniente al usar la aplicación, no dude en contactarnos.",
+                section1: "1. Consulta Personalizada",
+                contact_desc: "Para obtener la respuesta más rápida, envíe su consulta a la siguiente dirección de correo electrónico.",
+                section2: "2. Preguntas Frecuentes (FAQ)",
+                q1: "P: No puedo iniciar sesión, o parece que la aplicación tiene un error.",
+                a1: "R: Los errores principales, incluido el problema de inicio de sesión en iPad reportado por el equipo de revisión de Apple, se han solucionado en la última versión (1.0.2). Por favor, actualice la aplicación e intente de nuevo. Si el problema persiste, contáctenos al correo electrónico anterior con los detalles de su dispositivo.",
+                q2: "P: ¿Cuál es el propósito de la función 'Equipo y Amigos' en la aplicación?",
+                a2: "R: La función 'Equipo y Amigos' es una característica social que les ayuda a crecer juntos revisando los registros de partidos de los demás.",
+                q3: "P: ¿Puedo registrar datos de crecimiento personal además de estadísticas de béisbol?",
+                a3: "R: Sí. Puede registrar y gestionar de forma constante los cambios en su estado físico, como la altura y el peso, a través del menú 'Registro de Crecimiento' dentro de la pestaña 'Perfil' de la aplicación."
+            }
+        };
+
+        // 선택한 언어로 페이지 내용을 렌더링하는 함수
+        function renderContent(lang) {
+            const data = contentData[lang];
+            const contentDiv = document.getElementById('content');
+            
+            contentDiv.innerHTML = `
+                <h1>${data.title}</h1>
+                <p>${data.greeting}</p>
+                
+                <h2>${data.section1}</h2>
+                <p>${data.contact_desc}</p>
+                <p><strong><a href="mailto:${SUPPORT_EMAIL}" class="contact-email">${SUPPORT_EMAIL}</a></strong></p>
+                
+                <h2>${data.section2}</h2>
+                <div class="faq-item">
+                    <strong>${data.q1}</strong>
+                    <p>${data.a1}</p>
+                </div>
+                <div class="faq-item">
+                    <strong>${data.q2}</strong>
+                    <p>${data.a2}</p>
+                </div>
+                <div class="faq-item">
+                    <strong>${data.q3}</strong>
+                    <p>${data.a3}</p>
+                </div>
+            `;
+        }
+
+        // 언어 변경 시 호출되는 함수
+        function switchLanguage(lang) {
+            localStorage.setItem('preferredLang', lang);
+            document.getElementById('lang-select').value = lang;
+            renderContent(lang);
+        }
+
+        // 페이지 로드 시 언어 설정 및 렌더링
+        window.onload = function() {
+            // 브라우저 설정 또는 저장된 언어를 확인하여 기본값으로 설정
+            const defaultLang = localStorage.getItem('preferredLang') || (navigator.language || navigator.userLanguage).substring(0, 2);
+            
+            // 지원하는 언어가 아닐 경우 한국어로 설정
+            const lang = contentData[defaultLang] ? defaultLang : 'ko';
+            
+            switchLanguage(lang);
+        };
+    </script>
 </body>
 </html>
