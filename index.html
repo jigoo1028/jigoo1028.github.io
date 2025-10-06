@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -175,7 +175,7 @@
             const defaultLang = localStorage.getItem('preferredLang') || (navigator.language || navigator.userLanguage).substring(0, 2);
             
             // 지원하는 언어가 아닐 경우 한국어로 설정
-            const lang = contentData[defaultLang] ? defaultLang : 'ko';
+            const lang = contentData[defaultLang] ? defaultLang : 'en';
             
             switchLanguage(lang);
         };
